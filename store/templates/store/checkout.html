@@ -1,0 +1,95 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Finaliser la commande - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+    <h2>Finaliser votre commande</h2>
+    
+    <div class="checkout-container">
+        <div class="checkout-summary">
+            <h3>Résumé de la commande</h3>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.get_cost }} €</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td><strong>{{ total }} €</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="checkout-form">
+            <h3>Informations de livraison</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Nom complet</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Adresse</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">Ville</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="zip">Code postal</label>
+                    <input type="text" id="zip" name="zip" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <h3>Informations de paiement</h3>
+                <p>(Ceci est une démo - aucun paiement réel ne sera traité)</p>
+                
+                <div class="form-group">
+                    <label for="card">Numéro de carte</label>
+                    <input type="text" id="card" name="card" placeholder="1234 5678 9012 3456">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="expiry">Date d'expiration</label>
+                        <input type="text" id="expiry" name="expiry" placeholder="MM/AA">
+                    </div>
+                    
+                    <div class="form-group half">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="123">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">Confirmer la commande</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

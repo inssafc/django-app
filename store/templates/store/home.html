@@ -1,0 +1,51 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Accueil - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+    <div class="hero-banner">
+        <div class="hero-content">
+            <h1>Univers Sac à Dos</h1>
+            <p class="hero-description">Découvrez notre collection exclusive de sacs à dos de haute qualité. Des modèles élégants, fonctionnels et durables, adaptés à toutes vos aventures - que ce soit pour l'école, le travail, la randonnée ou le voyage.</p>
+            <a href="{% url 'product_catalog' %}" class="btn btn-hero">Découvrir la collection</a>
+        </div>
+    </div>
+    
+    <div class="home-categories">
+        <h2>Nos catégories</h2>
+        <div class="categories-grid">
+            {% for category in categories %}
+                <a href="{% url 'category_products' category.id %}" class="category-card">
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description }}</p>
+                </a>
+            {% empty %}
+                <p>Aucune catégorie disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="featured-products">
+        <h2>Nos produits populaires</h2>
+        <div class="products-grid">
+            {% for product in products|slice:":4" %}
+                <div class="product-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="no-image">Pas d'image</div>
+                    {% endif %}
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">{{ product.price }} €</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn">Voir détails</a>
+                </div>
+            {% empty %}
+                <p>Aucun produit disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+        
+        <div class="view-all-link">
+            <a href="{% url 'product_catalog' %}" class="btn btn-secondary">Voir tous les produits</a>
+        </div>
+    </div>
+{% endblock %}

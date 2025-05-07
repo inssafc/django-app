@@ -1,0 +1,55 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Votre Panier - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+    <h2>Votre Panier</h2>
+    
+    {% if cart_items %}
+        <div class="cart">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td class="product-info">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-img">
+                                {% endif %}
+                                <span>{{ item.product.name }}</span>
+                            </td>
+                            <td>{{ item.product.price }} €</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.get_cost }} €</td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-danger">Retirer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Total</td>
+                        <td colspan="2"><strong>{{ total }} €</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            <div class="cart-actions">
+                <a href="{% url 'home' %}" class="btn btn-secondary">Continuer les achats</a>
+                <a href="{% url 'checkout' %}" class="btn">Passer la commande</a>
+            </div>
+        </div>
+    {% else %}
+        <p>Votre panier est vide.</p>
+        <a href="{% url 'home' %}" class="btn">Retour à la boutique</a>
+    {% endif %}
+{% endblock %}

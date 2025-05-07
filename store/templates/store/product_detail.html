@@ -1,0 +1,37 @@
+{% extends 'store/base.html' %}
+
+{% block title %}{{ product.name }} - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+    <div class="product-detail">
+        <div class="product-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="no-image">Pas d'image</div>
+            {% endif %}
+        </div>
+        
+        <div class="product-info">
+            <h2>{{ product.name }}</h2>
+            <p class="price">{{ product.price }} €</p>
+            <p class="stock">
+                {% if product.stock > 0 %}
+                    En stock: {{ product.stock }}
+                {% else %}
+                    Rupture de stock
+                {% endif %}
+            </p>
+            <div class="description">
+                <h3>Description</h3>
+                <p>{{ product.description }}</p>
+            </div>
+            
+            {% if product.stock > 0 %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Ajouter au panier</a>
+            {% else %}
+                <button class="btn btn-disabled" disabled>Indisponible</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

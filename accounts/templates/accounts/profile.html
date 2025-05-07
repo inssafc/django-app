@@ -1,0 +1,49 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Mon Profil - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Mon Profil</h2>
+    
+    <div class="profile-info">
+        <div class="profile-section">
+            <h3>Informations personnelles</h3>
+            <p><strong>Nom d'utilisateur:</strong> {{ user.username }}</p>
+            <p><strong>Nom complet:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Date d'inscription:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
+        </div>
+        
+        <div class="profile-section">
+            <h3>Historique des commandes</h3>
+            {% with orders=user.order_set.all %}
+                {% if orders %}
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Commande #</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                                    <td>{{ order.total_price }} €</td>
+                                    <td>{% if order.is_completed %}Complétée{% else %}En cours{% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Vous n'avez pas encore effectué de commande.</p>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock %}

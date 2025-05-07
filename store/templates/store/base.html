@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Univers Sac à Dos{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'home' %}">Univers Sac à Dos</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                    <li><a href="{% url 'product_catalog' %}">Catalogue</a></li>
+                    <li><a href="{% url 'view_cart' %}">Panier</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Mon compte</a></li>
+                        <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Connexion</a></li>
+                        <li><a href="{% url 'register' %}">Inscription</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Univers Sac à Dos</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Connexion - Univers Sac à Dos{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Connexion</h2>
+    
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="form-errors">
+                        {% for error in field.errors %}
+                            <p class="error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn">Se connecter</button>
+    </form>
+    
+    <div class="auth-links">
+        Pas encore de compte? <a href="{% url 'register' %}">S'inscrire</a>
+    </div>
+</div>
+{% endblock %}
